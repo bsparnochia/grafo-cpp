@@ -8,8 +8,11 @@ class Arista;
 
 class Grafo{
 
-private:
-	Lista<Vertice*>* vertices;
+	/**
+	 * @brief: El Grafo es una estructura de elementos denominados 'vertices'
+	 * que se encuentran conectados entre sí mediante Aristas estableciendo asi
+	 * un número N de relaciones entre estos
+	 */
 
 public:
 
@@ -57,15 +60,10 @@ public:
 
 	~Grafo();
 
+private:
+	Lista<Vertice*>* vertices;
+
 };
-
-Grafo::Grafo(){
-	this->vertices = new Lista<Vertice*>;
-}
-
-Grafo::~Grafo(){
-	delete this->vertices;
-}
 
 /* ------- VERTICE ---------- */
 
@@ -117,32 +115,6 @@ private:
 	Lista<Arista*>* verticesAdyacentes;
 };
 
-Vertice::Vertice( int nuevoDato){
-	this->dato = nuevoDato;
-	this->visitado = false;
-	this->verticesAdyacentes = new Lista<Arista*>;
-}
-
-Vertice::~Vertice(){
-	delete this->verticesAdyacentes;
-}
-
-inline int Vertice::getDato() const {
-	return dato;
-}
-
-inline const Lista<Arista*>* Vertice::getVerticesAdyacentes() const {
-	return verticesAdyacentes;
-}
-
-void Vertice::marcarVisitado(){
-	this->visitado = true;
-}
-
-void Vertice::desmarcarVisitado(){
-	this->visitado = false;
-}
-
 /* ------- ARISTA ---------- */
 
 class Arista{
@@ -164,7 +136,7 @@ public:
 	 * @post: Crea una nueva Arista conectando un vertice 'origen'
 	 * con un vertice 'destino' y además indicando un 'peso'
 	 */
-	Arista( Vertice* origen, Vertice* destino, int peso);
+	Arista( Vertice* nuevoOrigen, Vertice* nuevoDestino, int nuevoPeso);
 
 	/**
 	 * @post: obtiene el 'destino' de la Arista
@@ -181,24 +153,5 @@ public:
 	 */
 	int getPeso() const;
 };
-
-Arista::Arista (Vertice* origen, Vertice* destino, int peso){
-
-	this->origen = origen;
-	this->destino = destino;
-	this->peso = peso;
-}
-
-Vertice* Arista::getDestino() const {
-	return destino;
-}
-
-Vertice* Arista::getOrigen() const {
-	return origen;
-}
-
-int Arista::getPeso() const {
-	return peso;
-}
 
 #endif /* GRAFO_H_ */
