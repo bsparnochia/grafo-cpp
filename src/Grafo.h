@@ -34,31 +34,82 @@ public:
 	void borrarVertice( int dato );
 
 	/**
-	 * @pre : La Arista no existe en el Grafo
+	 * @pre : La Arista con la información 'origen', 'destino' y 'peso'
+	 * 			no existe en el Grafo
 	 * @post: Agrega la Arista al Grafo
 	 */
 	void agregarArista( int origen, int destino, int peso );
+
+	/**
+	 * @pre : La Arista con la información 'origen' y 'destino'
+	 * 			no existe en el Grafo
+	 * @post: Agrega la Arista al Grafo
+	 */
+	void agregarArista( int origen, int destino);
+
 
 	/**
 	 * @pre : 'origen', 'destino' y 'peso' son valores correspondientes
 	 *  a una Arista existente en el Grafo
 	 * @post: Se borra la 'Arista' del Grafo
 	 */
-	void eliminarArista( int origen, int destino, int peso);
+	void borrarArista( int origen, int destino, int peso);
 
 	/**
-	 * @pre : 'verticeActual' y  'verticeComparado' son Vertices del Grafo
+	 * @pre : 'origen', 'destino' son valores correspondientes
+	 *  a una Arista existente en el Grafo
+	 * @post: Se borra la 'Arista' del Grafo
+	 */
+	void borrarArista( int origen, int destino);
+
+	/**
+	 * @post: Devuelve la Arista que conecta 'origen' y 'destino'
+	 * y que tiene el 'peso' indicado si son adyacentes, caso contrario devuelve null
+	 */
+	Arista* existeArista(int origen,int destino, int peso );
+
+	/**
 	 * @post: Devuelve la Arista que conecta 'verticeActual' y 'verticeComparado'
 	 * si son adyacentes, caso contrario devuelve null
 	 */
-	Arista* existeArista(int verticeActual,int verticeComparado );
+	Arista* existeArista(int origen,int destino);
 
 	/**
-	 * post: Devuelve el Vertice si existe el 'verticeBuscado' en el Grafo
+	 * @post: Devuelve el Vertice si existe el 'verticeBuscado' en el Grafo
 	 */
-	Vertice* existeVertice( int VerticeBuscado);
+	Vertice* existeVertice(int VerticeBuscado);
 
+	/**
+	 * @post: muestra los Vertices que contiene el Grafo
+	 */
+	void mostrarVertices();
+
+	/**
+	 * @post: muestra por pantalla los Aristas salientes del 'vertice'
+	 */
+	void mostrarAristasDelVertice(int vertice);
+
+	/**
+	 * post: libera los recursos del Grafo
+	 */
 	~Grafo();
+
+private:
+
+	/**
+	 * @post: Devuelve un Arista que contiene el 'destino' y 'peso' indicado por
+	 * parámetro. En caso de no encontrar una Arista que cumpla esta condición
+	 * retornará null
+	 */
+	Arista* buscarConexionDestino( Lista<Arista*>* conexiones, int destino, int peso);
+
+	/**
+	 * @post: Devuelve un Arista que contiene el 'destino' indicado por
+	 * parámetro. En caso de no encontrar una Arista que cumpla esta condición
+	 * retornará null
+	 */
+	Arista* buscarConexionDestino( Lista<Arista*>* conexiones, int destino );
+
 
 private:
 	Lista<Vertice*>* vertices;
@@ -92,7 +143,13 @@ public:
 	/**
 	 * @post: Devuelve las conexiones del Vertice con sus 'verticesAdyacentes'
 	 */
-	const Lista<Arista*>* getVerticesAdyacentes() const;
+	Lista<Arista*>* getVerticesAdyacentes() const;
+
+	/**
+	 * @post: Devuelve si el 'vertice' tiene Aristas
+	 * 		  salientes hacia otros Vertices
+	 */
+	bool tieneAristas();
 
 	/**
 	 * @post: marca el Vertice como visitado
@@ -132,11 +189,20 @@ private:
 public:
 
 	/**
-	 * @pre : Los vertices 'origen' y 'destino' existen en el Grafo
+	 * @pre : Los vertices 'origen' y 'destino' existen en el Grafo pero
+	 * 		 no una Arista formulada con su 'origen', 'destino' y 'peso'
 	 * @post: Crea una nueva Arista conectando un vertice 'origen'
 	 * con un vertice 'destino' y además indicando un 'peso'
 	 */
 	Arista( Vertice* nuevoOrigen, Vertice* nuevoDestino, int nuevoPeso);
+
+	/**
+	 * @pre : Los vertices 'origen' y 'destino' existen en el Grafo
+	 * 		 pero no una Arista con estos datos
+	 * @post: Crea una nueva Arista conectando un vertice 'origen'
+	 * con un vertice 'destino' y además indicando un 'peso'
+	 */
+	Arista( Vertice* nuevoOrigen, Vertice* nuevoDestino);
 
 	/**
 	 * @post: obtiene el 'destino' de la Arista
@@ -152,6 +218,12 @@ public:
 	 * @post: obtiene el 'peso' de la Arista
 	 */
 	int getPeso() const;
+
+	/**
+	 * @post: retonarna verdadero si el 'otroOrigen' y el 'otroDestino' son iguales
+	 * 			al 'origen' y 'destino' de la Arista
+	 */
+	bool esLaMisma( int otroOrigen, int otroDestino );
 };
 
 #endif /* GRAFO_H_ */
